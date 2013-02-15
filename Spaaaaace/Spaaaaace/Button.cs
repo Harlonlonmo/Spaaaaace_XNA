@@ -41,6 +41,11 @@ namespace Spaaaaace
             texture = new Texture2D(game.GraphicsDevice, 1, 1);
             texture.SetData(new Color[] { Color.White });
         }
+        public Button(Rectangle drawRect, LonharGame game, Color color, Color hoverColor)
+            : this(drawRect, game, color)
+        {
+            this.hoverColor = hoverColor;
+        }
         /*public Button(Rectangle drawRect, LonharGame game, Color color, Color hoverColor, int textAlignment, String text)
         {
             textAlign = textAlignment;

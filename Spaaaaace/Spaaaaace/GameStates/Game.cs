@@ -26,10 +26,8 @@ namespace Spaaaaace.GameStates
 
         public override void Update(GameTime gameTime)
         {
-            MouseState ms = Mouse.GetState();
-            KeyboardState ks = Keyboard.GetState();
-            GamePadState gs = GamePad.GetState(PlayerIndex.One);
-            if (ks.IsKeyDown(Keys.Escape) || gs.IsButtonDown(Buttons.Start))
+            if (InputController.KeyWasPressed(Keys.Escape) ||
+                InputController.ButtonWasPressed(Buttons.Start))
             {
                 game.ChangeState(new Menu(game));
             }
@@ -42,6 +40,8 @@ namespace Spaaaaace.GameStates
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            spriteBatch.Draw(game.Textures.getTexture("Background"), new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
+
             playerShip.Draw(spriteBatch, gameTime);
             foreach (Planet p in planets)
             {

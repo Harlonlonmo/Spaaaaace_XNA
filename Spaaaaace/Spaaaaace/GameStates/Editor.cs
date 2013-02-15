@@ -13,8 +13,6 @@ namespace Spaaaaace.GameStates
     {
 
         private Rectangle camera;
-        private MouseState oldMs;
-        private GamePadState oldGs;
 
         private GameMenu editorMenu;
 
@@ -26,62 +24,80 @@ namespace Spaaaaace.GameStates
             camera = new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             cursorPos = new Vector2();
             editorMenu = new GameMenu();
-            editorMenu.Buttons.Add(new Button(new Rectangle(650, 50, 125, 50), game, Color.Thistle));
+            editorMenu.Buttons.Add(new Button(new Rectangle(650, 50, 125, 50), game, Color.Thistle, Color.White));
+            editorMenu.Buttons.Add(new Button(new Rectangle(650, 110, 125, 50), game, Color.Thistle, Color.White));
         }
 
         public override void Update(GameTime gameTime)
         {
-            MouseState ms = Mouse.GetState();
-            Boolean mouseChanged = ms != oldMs;
-            KeyboardState ks = Keyboard.GetState();
-            GamePadState gs = GamePad.GetState(PlayerIndex.One);
-            Boolean gamePadChanged = gs != oldGs;
             if (editorMenu.Open)
             {
-                if (gs.Buttons.B == ButtonState.Pressed && oldGs.Buttons.B == ButtonState.Released)
+                editorMenu.Update(gameTime);
+                if (InputController.ButtonWasPressed(Buttons.B) ||
+                    InputController.KeyWasPressed(Keys.Escape))
                 {
-                    editorMenu.Open = true;
+                    editorMenu.Open = false;
+                }
+                int pressed = editorMenu.getPressed();
+                if (pressed >= 0)
+                {
+                    if (pressed == 0)
+                    {
+                        // button 0
+                    }
+                    else if (pressed == 1)
+                    {
+                        // button 1
+                    }
+                    else if (pressed == 2)
+                    {
+                        // button 2
+                    }
+                    editorMenu.Open = false;
                 }
             }
             else
             {
-                if (ks.IsKeyDown(Keys.Escape) || gs.IsButtonDown(Buttons.Start))
+                if (InputController.KeyWasPressed(Keys.Escape) ||
+                    InputController.ButtonWasPressed(Buttons.Start))
                 {
                     game.ChangeState(new Menu(game));
                 }
-                if (mouseChanged)
+                if (InputController.KeyWasPressed(Keys.M))
                 {
-                    cursorPos = new Vector2(ms.X, ms.Y);
-                    cursorPos.X = MathHelper.Clamp(ms.X, 0, camera.Width);
-                    cursorPos.Y = MathHelper.Clamp(ms.Y, 0, camera.Height);
-                    if (ms.RightButton == ButtonState.Pressed)
-                    {
-                        camera.Offset(new Point(oldMs.X - ms.X, oldMs.Y - ms.Y));
-
-                    }
-                    oldMs = ms;
+                    editorMenu.Open = true;
                 }
-                if (gamePadChanged)
+                if (InputController.mouseChanged)
                 {
-
-                    float cursormove = (float)gameTime.ElapsedGameTime.TotalSeconds * 500;
-                    cursorPos.X = MathHelper.Clamp(cursorPos.X + gs.ThumbSticks.Left.X * cursormove, 0, camera.Width);
-                    cursorPos.Y = MathHelper.Clamp(cursorPos.Y - gs.ThumbSticks.Left.Y * cursormove, 0, camera.Height);
-
-                    camera.Offset((int)(gs.ThumbSticks.Right.X * cursormove), (int)(-gs.ThumbSticks.Right.Y * cursormove));
-
-                    if (gs.Buttons.B == ButtonState.Pressed && oldGs.Buttons.B == ButtonState.Released)
+                    cursorPos = new Vector2(InputController.getMouseRect().X, InputController.getMouseRect().Y);
+                    cursorPos.X = MathHelper.Clamp(cursorPos.X, 0, camera.Width);
+                    cursorPos.Y = MathHelper.Clamp(cursorPos.Y, 0, camera.Height);
+                    if (InputController.mouseState.RightButton == ButtonState.Pressed)
                     {
-                        editorMenu.Open = true;
+                        camera.Offset(InputController.getMouseChange());
                     }
                 }
+                float cursormove = (float)gameTime.ElapsedGameTime.TotalSeconds * 500;
+                cursorPos.X = MathHelper.Clamp(cursorPos.X + InputController.gamePadState.ThumbSticks.Left.X * cursormove, 0, camera.Width);
+                cursorPos.Y = MathHelper.Clamp(cursorPos.Y - InputController.gamePadState.ThumbSticks.Left.Y * cursormove, 0, camera.Height);
+
+                camera.Offset(
+                    (int)(InputController.gamePadState.ThumbSticks.Right.X * cursormove),
+                    (int)(-InputController.gamePadState.ThumbSticks.Right.Y * cursormove));
+
+                if (InputController.ButtonWasPressed(Buttons.B))
+                {
+                    editorMenu.Open = true;
+                }
+
             }
-            oldMs = ms;
-            oldGs = gs;
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+
+            spriteBatch.Draw(game.Textures.getTexture("Background"), new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
+
             Vector2 cursorGridPos = gridToPoint(pointToGrid(cursorPos, 32), 32);
             Primitives2D.FillRectangle(spriteBatch, new Rectangle((int)cursorGridPos.X, (int)cursorGridPos.Y, 32, 32), Color.White);
             //Primitives2D.FillRectangle(spriteBatch, new Rectangle((int)pointToGrid(cursorPos, 32).X*32, (int)pointToGrid(cursorPos, 32).Y*32, 32, 32), Color.Tomato);

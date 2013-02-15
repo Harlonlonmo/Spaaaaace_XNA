@@ -51,6 +51,7 @@ namespace Spaaaaace
             Textures = new TextureBank();
             Textures.Load(Content, "Player ship");
             Textures.Load(Content, "Planet");
+            Textures.Load(Content, "Background");
 
         }
 
@@ -70,8 +71,9 @@ namespace Spaaaaace
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputController.Update(gameTime);
             gameState.Update(gameTime);
-            
+            InputController.LastUpdate();
             base.Update(gameTime);
         }
 

@@ -119,6 +119,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\Editor.cs" />
     <Compile Include="GameStates\Game.cs" />
+    <Compile Include="InputController.cs" />
     <Compile Include="GameStates\Menu.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="LonharGame.cs" />
