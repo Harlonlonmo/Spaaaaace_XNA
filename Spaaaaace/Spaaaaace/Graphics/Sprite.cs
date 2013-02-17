@@ -21,6 +21,10 @@ namespace Spaaaaace.Graphics
         {
             spriteBatch.Draw(texture, position, Color.White);
         }
+        public virtual void Draw(SpriteBatch spriteBatch, Rectangle rect, GameTime gameTime)
+        {
+            spriteBatch.Draw(texture, rect, Color.White);
+        }
         public virtual void DrawCenter(SpriteBatch spriteBatch, Vector2 Position, GameTime gameTime)
         {
             Draw(spriteBatch, Position - new Vector2(texture.Bounds.Width / 2, texture.Bounds.Height / 2), gameTime);

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using C3.XNA;
 using Microsoft.Xna.Framework.Input;
+using Spaaaaace.GameMenus;
 
 namespace Spaaaaace.GameStates
 {
@@ -18,6 +19,8 @@ namespace Spaaaaace.GameStates
 
         private Vector2 cursorPos;
 
+        private GameMenu pauseMenu;
+
         public Editor(LonharGame game)
             : base(game)
         {
@@ -26,15 +29,39 @@ namespace Spaaaaace.GameStates
             editorMenu = new GameMenu();
             editorMenu.Buttons.Add(new Button(new Rectangle(650, 50, 125, 50), game, Color.Thistle, Color.White));
             editorMenu.Buttons.Add(new Button(new Rectangle(650, 110, 125, 50), game, Color.Thistle, Color.White));
+
+            pauseMenu = new PauseMenu(game);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (editorMenu.Open)
+            if (pauseMenu.Open)
+            {
+                pauseMenu.Update(gameTime);
+                if (InputController.KeyWasPressed(Keys.Escape) ||
+                    InputController.ButtonWasPressed(Buttons.Start))
+                {
+                    pauseMenu.Open = false;
+                }
+                int pressed = pauseMenu.getPressed();
+                if (pressed >= 0)
+                {
+                    if (pressed == 0)
+                    {
+                        game.ChangeState(new Menu(game));
+                    }
+                    else if (pressed == 1)
+                    {
+                        pauseMenu.Open = false;
+                    }
+                }
+            }
+            else if (editorMenu.Open)
             {
                 editorMenu.Update(gameTime);
                 if (InputController.ButtonWasPressed(Buttons.B) ||
-                    InputController.KeyWasPressed(Keys.Escape))
+                    InputController.KeyWasPressed(Keys.Escape) ||
+                    InputController.KeyWasPressed(Keys.M))
                 {
                     editorMenu.Open = false;
                 }
@@ -61,7 +88,7 @@ namespace Spaaaaace.GameStates
                 if (InputController.KeyWasPressed(Keys.Escape) ||
                     InputController.ButtonWasPressed(Buttons.Start))
                 {
-                    game.ChangeState(new Menu(game));
+                    pauseMenu.Open = true;
                 }
                 if (InputController.KeyWasPressed(Keys.M))
                 {
@@ -104,10 +131,11 @@ namespace Spaaaaace.GameStates
             DrawGrid(spriteBatch, 32);
             if (editorMenu.Open)
             {
-                foreach (Button b in editorMenu.Buttons)
-                {
-                    b.Draw(spriteBatch, gameTime);
-                }
+                editorMenu.Draw(spriteBatch, gameTime);
+            }
+            if (pauseMenu.Open)
+            {
+                pauseMenu.Draw(spriteBatch, gameTime);
             }
         }
 

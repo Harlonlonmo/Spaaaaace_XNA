@@ -113,6 +113,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="GameMenu.cs" />
     <Compile Include="GameMenuItem.cs" />
+    <Compile Include="GameMenus\PauseMenu.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjects\Planet.cs" />
     <Compile Include="GameObjects\PlayerShip.cs" />

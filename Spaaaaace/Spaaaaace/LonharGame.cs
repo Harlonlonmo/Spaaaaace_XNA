@@ -21,6 +21,7 @@ namespace Spaaaaace
         protected SpriteBatch spriteBatch;
 
         public TextureBank Textures { get; protected set; }
+        public SpriteFont ButtonFont { get; protected set; }
         protected GameState gameState;
 
         public LonharGame()

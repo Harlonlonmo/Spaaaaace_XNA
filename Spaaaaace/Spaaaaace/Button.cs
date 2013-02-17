@@ -20,17 +20,38 @@ namespace Spaaaaace
         protected Texture2D texture;
         protected Color color;
         protected Color hoverColor;
+        protected SpriteFont font;
+        protected Vector2 drawTextPos;
 
         protected Boolean drawText;
 
-        public Button(Rectangle drawRect, LonharGame game, Color color, Color hoverColor, int textAlignment, String text)
+        public Button(Rectangle drawRect, Texture2D texture, int textAlignment, String text, SpriteFont font)
         {
             textAlign = textAlignment;
             Text = text;
+            DrawRect = drawRect;
+            this.texture = texture;
+            this.font = font;
+            drawText = true;
+            Vector2 textSize = font.MeasureString(Text);
+            if (textAlign == TEXT_ALIGN_LEFT)
+            {
+                drawTextPos = new Vector2(DrawRect.X + (DrawRect.Height - textSize.Y) / 2, DrawRect.Y + (DrawRect.Height - textSize.Y) / 2);
+            }
+            else if (textAlign == TEXT_ALIGN_MID)
+            {
+                drawTextPos = new Vector2(DrawRect.X + (DrawRect.Width - textSize.X) / 2, DrawRect.Y + (DrawRect.Height - textSize.Y) / 2);
+            }
+            else if (textAlign == TEXT_ALIGN_RIGHT)
+            {
+                drawTextPos = new Vector2(DrawRect.X + DrawRect.Width - (DrawRect.Height - textSize.Y) / 2, DrawRect.Y + (DrawRect.Height - textSize.Y) / 2);
+            }
+        }
+        public Button(Rectangle drawRect, LonharGame game, Color color, Color hoverColor, int textAlignment, String text, SpriteFont font)
+            : this(drawRect, new Texture2D(game.GraphicsDevice, 1, 1), textAlignment, text, font)
+        {
             this.color = color;
             this.hoverColor = hoverColor;
-            DrawRect = drawRect;
-            texture = new Texture2D(game.GraphicsDevice, 1, 1);
             texture.SetData(new Color[] { Color.White });
         }
         public Button(Rectangle drawRect, LonharGame game, Color color)
@@ -56,11 +77,7 @@ namespace Spaaaaace
             texture = new Texture2D(game.GraphicsDevice, 1, 1);
             texture.SetData(new Color[] { Color.White });
         }*/
-        public Button(Rectangle drawRect, Texture2D texture, int textAlignment, String text)
-        {
-            textAlign = textAlignment;
-            Text = text;
-        }
+
 
         public bool CheckHover(Rectangle mousePos)
         {
@@ -72,7 +89,9 @@ namespace Spaaaaace
             spriteBatch.Draw(texture, DrawRect, (Hover) ? hoverColor : color);
             if (drawText)
             {
-                //TODO Draw text
+                
+                spriteBatch.DrawString(font, Text, drawTextPos, Color.White);
+
             }
         }
     }

@@ -13,12 +13,12 @@ namespace Spaaaaace
         public Boolean Open { get; set; }
 
         public List<Button> Buttons { get; protected set; }
-        private int buttonIndex;
+        protected int buttonIndex;
 
-        private Rectangle oldMousePos;
+        protected Rectangle oldMousePos;
 
-        private Boolean joysticChange;
-        private Boolean keyboardChange;
+        protected Boolean joysticChange;
+        protected Boolean keyboardChange;
 
         public GameMenu()
         {
@@ -29,7 +29,6 @@ namespace Spaaaaace
         public void Update(GameTime gameTime)
         {
             CheckButtons();
-
         }
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -40,7 +39,7 @@ namespace Spaaaaace
             }
         }
 
-        private void CheckButtons()
+        protected void CheckButtons()
         {
             Rectangle mousePos = new Rectangle(InputController.mouseState.X, InputController.mouseState.Y, 1, 1);
             Buttons[buttonIndex].Hover = false;

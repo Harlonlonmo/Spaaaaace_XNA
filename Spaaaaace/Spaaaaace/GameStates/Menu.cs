@@ -16,9 +16,9 @@ namespace Spaaaaace.GameStates
         public Menu(LonharGame game):base(game)
         {
             gameMenu = new GameMenu();
-            gameMenu.Buttons.Add(new Button(new Rectangle(50, 50, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Test 1"));
-            gameMenu.Buttons.Add(new Button(new Rectangle(50, 110, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Test 2"));
-            gameMenu.Buttons.Add(new Button(new Rectangle(50, 170, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Test 3"));
+            gameMenu.Buttons.Add(new Button(new Rectangle(50, 50, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Play", game.ButtonFont));
+            gameMenu.Buttons.Add(new Button(new Rectangle(50, 110, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Editor", game.ButtonFont));
+            gameMenu.Buttons.Add(new Button(new Rectangle(50, 170, 200, 50), game, Color.Green, Color.GreenYellow, Button.TEXT_ALIGN_MID, "Exit", game.ButtonFont));
         }
 
         public override void Update(GameTime gameTime)

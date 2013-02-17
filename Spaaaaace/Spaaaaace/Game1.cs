@@ -35,7 +35,7 @@ namespace Spaaaaace
         {
             // TODO: Add your initialization logic here
 
-            gameState = new Menu(this);
+            
 
             base.Initialize();
         }
@@ -48,11 +48,14 @@ namespace Spaaaaace
         {
             base.LoadContent();
 
+            
+
             Textures = new TextureBank();
             Textures.Load(Content, "Player ship");
             Textures.Load(Content, "Planet");
             Textures.Load(Content, "Background");
-
+            ButtonFont = Content.Load<SpriteFont>("ButtonFont");
+            gameState = new Menu(this);
         }
 
         /// <summary>
