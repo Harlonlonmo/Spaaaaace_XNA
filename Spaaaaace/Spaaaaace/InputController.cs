@@ -27,19 +27,16 @@ namespace Spaaaaace
 
         public static void Update(GameTime gameTime)
         {
+            oldGs = gamePadState;
+            oldKs = keyboardState;
+            oldMs = mouseState;
+
             mouseState = Mouse.GetState();
             mouseChanged = mouseState != oldMs;
             keyboardState = Keyboard.GetState();
             keyboardChanged = keyboardState != oldKs;
             gamePadState = GamePad.GetState(PlayerIndex.One);
             gamePadChanged = gamePadState != oldGs;
-        }
-
-        public static void LastUpdate()
-        {
-            oldGs = gamePadState;
-            oldKs = keyboardState;
-            oldMs = mouseState;
         }
 
         public static Boolean KeyWasPressed(Keys key)

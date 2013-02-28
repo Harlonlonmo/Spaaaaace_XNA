@@ -63,6 +63,9 @@
     <Reference Include="C3.XNA.Primitives2D">
       <HintPath>..\..\..\..\..\Downloads\C3.XNA.Primitives2D.dll</HintPath>
     </Reference>
+    <Reference Include="LonharLibXNA">
+      <HintPath>..\..\..\PG2200\LonharLib\LonharLibXNA\bin\x86\Debug\LonharLibXNA.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -112,7 +115,6 @@
   <ItemGroup>
     <Compile Include="Button.cs" />
     <Compile Include="GameMenu.cs" />
-    <Compile Include="GameMenuItem.cs" />
     <Compile Include="GameMenus\PauseMenu.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjects\Planet.cs" />

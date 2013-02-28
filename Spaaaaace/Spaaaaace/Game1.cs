@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Spaaaaace.Graphics;
 using Spaaaaace.GameObjects;
 using Spaaaaace.GameStates;
+using LonharLibXNA;
 
 namespace Spaaaaace
 {
@@ -76,7 +77,6 @@ namespace Spaaaaace
         {
             InputController.Update(gameTime);
             gameState.Update(gameTime);
-            InputController.LastUpdate();
             base.Update(gameTime);
         }
 
