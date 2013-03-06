@@ -10,6 +10,8 @@ namespace Spaaaaace
 {
     public class GameMenu
     {
+        public enum Direction { Vertical, Horizontal }
+
         public Boolean Open { get; set; }
 
         public List<Button> Buttons { get; protected set; }
@@ -19,9 +21,11 @@ namespace Spaaaaace
 
         protected Boolean joysticChange;
         protected Boolean keyboardChange;
+        protected Direction dir;
 
-        public GameMenu()
+        public GameMenu(Direction dir)
         {
+            this.dir = dir;
             Buttons = new List<Button>();
             buttonIndex = 0;
         }
@@ -54,41 +58,83 @@ namespace Spaaaaace
                     }
                 }
             }
-            if (Math.Abs(InputController.gamePadState.ThumbSticks.Left.Y) > .5f)
+            if (dir == Direction.Vertical)
             {
-                if (!joysticChange)
+                if (Math.Abs(InputController.gamePadState.ThumbSticks.Left.Y) > .5f)
                 {
-                    buttonIndex -= Math.Sign(InputController.gamePadState.ThumbSticks.Left.Y);
-                    joysticChange = true;
+                    if (!joysticChange)
+                    {
+                        buttonIndex -= Math.Sign(InputController.gamePadState.ThumbSticks.Left.Y);
+                        joysticChange = true;
+                    }
                 }
-            }
-            else
-            {
-                joysticChange = false;
-            }
+                else
+                {
+                    joysticChange = false;
+                }
 
-            if (InputController.KeyWasPressed(Keys.W) ||
-                InputController.KeyWasPressed(Keys.Up) ||
-                InputController.KeyWasPressed(Keys.S) ||
-                InputController.KeyWasPressed(Keys.Down))
-            {
-                if (!keyboardChange)
+                if (InputController.KeyWasPressed(Keys.W) ||
+                    InputController.KeyWasPressed(Keys.Up) ||
+                    InputController.KeyWasPressed(Keys.S) ||
+                    InputController.KeyWasPressed(Keys.Down))
                 {
-                    if (InputController.KeyWasPressed(Keys.S) ||
-                        InputController.KeyWasPressed(Keys.Down))
+                    if (!keyboardChange)
                     {
-                        buttonIndex++;
+                        if (InputController.KeyWasPressed(Keys.S) ||
+                            InputController.KeyWasPressed(Keys.Down))
+                        {
+                            buttonIndex++;
+                        }
+                        else
+                        {
+                            buttonIndex--;
+                        }
+                        keyboardChange = true;
                     }
-                    else
-                    {
-                        buttonIndex--;
-                    }
-                    keyboardChange = true;
+                }
+                else
+                {
+                    keyboardChange = false;
                 }
             }
             else
             {
-                keyboardChange = false;
+                if (Math.Abs(InputController.gamePadState.ThumbSticks.Left.X) > .5f)
+                {
+                    if (!joysticChange)
+                    {
+                        buttonIndex += Math.Sign(InputController.gamePadState.ThumbSticks.Left.X);
+                        joysticChange = true;
+                    }
+                }
+                else
+                {
+                    joysticChange = false;
+                }
+
+                if (InputController.KeyWasPressed(Keys.A) ||
+                    InputController.KeyWasPressed(Keys.Left) ||
+                    InputController.KeyWasPressed(Keys.D) ||
+                    InputController.KeyWasPressed(Keys.Right))
+                {
+                    if (!keyboardChange)
+                    {
+                        if (InputController.KeyWasPressed(Keys.D) ||
+                            InputController.KeyWasPressed(Keys.Right))
+                        {
+                            buttonIndex++;
+                        }
+                        else
+                        {
+                            buttonIndex--;
+                        }
+                        keyboardChange = true;
+                    }
+                }
+                else
+                {
+                    keyboardChange = false;
+                }
             }
             buttonIndex = (int)MathHelper.Clamp(buttonIndex, 0, Buttons.Count - 1);
             Buttons[buttonIndex].Hover = true;
@@ -97,7 +143,7 @@ namespace Spaaaaace
         public int getPressed()
         {
             if (InputController.KeyWasPressed(Keys.Enter) ||
-                (InputController.MouseButtonWasPressed(InputController.MOUSE_LEFT) &&
+                (InputController.MouseButtonWasPressed(InputController.MouseButton.Left) &&
                     Buttons[buttonIndex].CheckHover(InputController.getMouseRect()))
                 || InputController.ButtonWasPressed(Microsoft.Xna.Framework.Input.Buttons.A))
             {

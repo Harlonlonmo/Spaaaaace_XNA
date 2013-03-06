@@ -26,7 +26,7 @@ namespace Spaaaaace.GameStates
         {
             camera = new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             cursorPos = new Vector2();
-            editorMenu = new GameMenu();
+            editorMenu = new GameMenu(GameMenu.Direction.Vertical);
             editorMenu.Buttons.Add(new Button(new Rectangle(650, 50, 125, 50), game, Color.Thistle, Color.White));
             editorMenu.Buttons.Add(new Button(new Rectangle(650, 110, 125, 50), game, Color.Thistle, Color.White));
 

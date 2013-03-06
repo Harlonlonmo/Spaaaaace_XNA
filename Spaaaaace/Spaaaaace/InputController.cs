@@ -9,9 +9,7 @@ namespace Spaaaaace
 {
     public class InputController
     {
-        public const int MOUSE_LEFT = 0;
-        public const int MOUSE_MIDLE = 1;
-        public const int MOUSE_RIGHT = 2;
+        public enum MouseButton { Left, Midle, Right }
 
         public static MouseState mouseState { get; protected set; }
         public static KeyboardState keyboardState { get; protected set; }
@@ -50,14 +48,14 @@ namespace Spaaaaace
             if (!gamePadChanged) return false;
             return gamePadState.IsButtonDown(button) && oldGs.IsButtonUp(button);
         }
-        public static Boolean MouseButtonWasPressed(int button)
+        public static Boolean MouseButtonWasPressed(MouseButton button)
         {
             if (!mouseChanged) return false;
-            if (button == 0) return mouseState.LeftButton == ButtonState.Pressed &&
+            if (button == MouseButton.Left) return mouseState.LeftButton == ButtonState.Pressed &&
                 oldMs.LeftButton == ButtonState.Released;
-            if (button == 1) return mouseState.MiddleButton == ButtonState.Pressed &&
+            if (button == MouseButton.Midle) return mouseState.MiddleButton == ButtonState.Pressed &&
                 oldMs.MiddleButton == ButtonState.Released;
-            if (button == 2) return mouseState.RightButton == ButtonState.Pressed &&
+            if (button == MouseButton.Right) return mouseState.RightButton == ButtonState.Pressed &&
                 oldMs.RightButton == ButtonState.Released;
             return false;
         }
